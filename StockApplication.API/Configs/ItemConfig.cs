@@ -17,7 +17,7 @@ namespace StockApplication.API.Configs
                 .IsRequired()
                 .HasMaxLength(150);
 
-            builder.HasOne(i => i.Network)
+            builder.HasOne(i => i.NetworkSpec)
                 .WithOne(n => n.Item)
                 .HasForeignKey<NetworkSpecs>(n => n.ItemId)
                 .OnDelete(DeleteBehavior.Cascade);
