@@ -14,7 +14,7 @@
         public bool Status { get; set; }
 
 
-        public NetworkConfig? Network {  get; set; }
+        public NetworkSpecs? Network {  get; set; }
         public HardwareSpecs? Specs { get; set; }
     }
 }
