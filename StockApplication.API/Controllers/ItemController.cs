@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
 using StockApplication.API.Context;
 using StockApplication.API.Entities;
@@ -22,6 +23,32 @@ namespace StockApplication.API.Controllers
         {
             _context.Add(item);
             _context.SaveChanges();
+            return Ok(item);
+        }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var items = _context.Item
+                .Include(i => i.NetworkSpec)
+                .Include(i => i.HardwareSpec)
+                .ToList();
+
+            return Ok(items);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var item = _context.Item
+                .Include(i => i.NetworkSpec)
+                .Include(i => i.HardwareSpec)
+                .FirstOrDefault(i => i.Id == id);
+
+            if(item == null)
+            {
+                return NotFound();
+            }
             return Ok(item);
         }
     }
