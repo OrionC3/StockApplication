@@ -54,5 +54,36 @@ namespace StockApplication.API.Controllers
             }
             return Ok(item);
         }
+
+        [HttpPut("{id}")]
+        public IActionResult Update([FromBody]ItemCreateDto itemDto, [FromRoute] int id)
+        {
+            var itemInDb = _context.Item
+                .Include(i => i.NetworkSpec)
+                .Include(i => i.HardwareSpec)
+                .FirstOrDefault(i => i.Id == id);
+
+            if(itemInDb == null)
+            {
+                return NotFound("Item not found !");
+            }
+
+            itemInDb.Name = itemDto.Name;
+            itemInDb.Category = itemDto.Category;
+
+            if(itemInDb.NetworkSpec != null)
+            {
+                itemInDb.NetworkSpec.IpAddress = itemDto.IpAddress;
+                itemInDb.NetworkSpec.MacAddress = itemDto.MacAddress;
+            }
+
+            if(itemInDb.HardwareSpec != null)
+            {
+                itemInDb.HardwareSpec.Cpu = itemDto.Cpu;
+            }
+
+            _context.SaveChanges();
+            return Ok(itemInDb);
+        }
     }
 }
