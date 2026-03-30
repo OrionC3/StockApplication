@@ -9,7 +9,7 @@
         public string? IpGateway { get; set; }
         public string? MacAddress { get; set; }
         public string? VlanId { get; set; }
-        public bool IsStatic { get; set; }
+        public bool? IsStatic { get; set; }
 
         public Item? Item { get; set; }
     }

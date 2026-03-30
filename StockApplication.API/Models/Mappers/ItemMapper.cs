@@ -16,5 +16,32 @@ namespace StockApplication.API.Models.Mappers
                 IpAddress = item.NetworkSpec?.IpAddress ?? "No IP"
             };
         }
+        public static Item ToEntity(this ItemCreateDto dto)
+        {
+            return new Item
+            {
+                Name = dto.Name,
+                Category = dto.Category,
+                NetworkSpec = new NetworkSpecs
+                {
+                    IpAddress = dto.IpAddress,
+                    MacAddress = dto.MacAddress,
+                    IpMask = dto.IpMask,
+                    IpGateway = dto.IpGateway,
+                    VlanId = dto.VlanId,
+                    IsStatic = dto.IsStatic,
+                },
+
+
+                HardwareSpec = new HardwareSpecs
+                {
+                    Cpu = dto.Cpu,
+                    Ram = dto.Ram,
+                    Storage = dto.Storage,
+                    GraphicCard = dto.GraphicCard,
+                    Allimentation = dto.Allimentation,
+                }
+            };
+        }
     }
 }

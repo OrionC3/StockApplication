@@ -19,13 +19,13 @@ namespace StockApplication.API.Controllers
         {
             _context = context;
         }
-
         [HttpPost]
-        public IActionResult Add([FromBody] Item item)
+        public IActionResult Add(ItemCreateDto item)
         {
-            _context.Add(item);
+            var entity = item.ToEntity();
+            _context.Add(entity);
             _context.SaveChanges();
-            return Ok(item);
+            return Ok(entity);
         }
 
         [HttpGet]
