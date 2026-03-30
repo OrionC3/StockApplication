@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
 using StockApplication.API.Context;
 using StockApplication.API.Entities;
+using StockApplication.API.Models.Dtos;
 
 namespace StockApplication.API.Controllers
 {
@@ -32,6 +33,7 @@ namespace StockApplication.API.Controllers
             var items = _context.Item
                 .Include(i => i.NetworkSpec)
                 .Include(i => i.HardwareSpec)
+                .Select(i => i.ToDo())
                 .ToList();
 
             return Ok(items);
