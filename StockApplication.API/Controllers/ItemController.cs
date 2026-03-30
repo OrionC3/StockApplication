@@ -41,7 +41,7 @@ namespace StockApplication.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public IActionResult GetById([FromRoute]int id)
         {
             var item = _context.Item
                 .Include(i => i.NetworkSpec)
@@ -84,6 +84,22 @@ namespace StockApplication.API.Controllers
 
             _context.SaveChanges();
             return Ok(itemInDb);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            var itemToDelete = _context.Item
+                .Find(id);
+
+            if(itemToDelete == null)
+            {
+                return NotFound("Not found");
+            }
+
+            _context.Item.Remove(itemToDelete);
+            _context.SaveChanges();
+            return NoContent();
         }
     }
 }
