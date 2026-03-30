@@ -29,15 +29,23 @@ namespace StockApplication.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll([FromQuery] int page = 0)
         {
+            int pageSize = 10;
+            var totalCount = _context.Item.Count();
             var items = _context.Item
                 .Include(i => i.NetworkSpec)
                 .Include(i => i.HardwareSpec)
-                .Select(i => i.ToDto())
+                .OrderBy(i => i.Id)
+                .Skip(page * pageSize)
+                .Take(pageSize)
+                .Select(i => i.ToDto())                
                 .ToList();
-
-            return Ok(items);
+            return Ok(new
+            {
+                Total = totalCount,
+                Data = items
+            });
         }
 
         [HttpGet("{id}")]
