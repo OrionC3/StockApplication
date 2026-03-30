@@ -5,6 +5,7 @@ using SQLitePCL;
 using StockApplication.API.Context;
 using StockApplication.API.Entities;
 using StockApplication.API.Models.Dtos;
+using StockApplication.API.Models.Mappers;
 
 namespace StockApplication.API.Controllers
 {
@@ -33,7 +34,7 @@ namespace StockApplication.API.Controllers
             var items = _context.Item
                 .Include(i => i.NetworkSpec)
                 .Include(i => i.HardwareSpec)
-                .Select(i => i.ToDo())
+                .Select(i => i.ToDto())
                 .ToList();
 
             return Ok(items);
